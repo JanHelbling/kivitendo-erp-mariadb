@@ -29,7 +29,7 @@ BEGIN {
   { name => "DateTime::Format::Strptime",          url => "http://search.cpan.org/~drolsky/",   debian => 'libdatetime-format-strptime-perl' },
   { name => "DateTime::Set",   version => '0.12',  url => "http://search.cpan.org/~fglock/",    debian => 'libdatetime-set-perl' },
   { name => "DBI",             version => '1.50',  url => "http://search.cpan.org/~timb/",      debian => 'libdbi-perl' },
-  { name => "DBD::Pg",         version => '1.49',  url => "http://search.cpan.org/~dbdpg/",     debian => 'libdbd-pg-perl' },
+  { name => "DBD::mysql",                          url => "http://search.cpan.org/~dbdmysql/",     debian => 'libdbd-mysql-perl' },
   { name => "Digest::SHA",                         url => "http://search.cpan.org/~mshelor/",   debian => 'libdigest-sha-perl' },
   { name => "Exception::Class", version => '1.44', url => "https://metacpan.org/pod/Exception::Class", debian => 'libexception-class-perl' },
   { name => "Email::Address",  version => '1.888', url => "http://search.cpan.org/~rjbs/",      debian => 'libemail-address-perl' },
