@@ -333,12 +333,11 @@ log_file = /tmp/kivitendo_console_debug.log
 # following parameters must be given:
 [testing/database]
 host               = localhost
-port               = 5432
+port               = 3306
 db                 =
-user               = postgres
+user               = kivitendo
 password           =
-template           = template1
-superuser_user     = postgres
+superuser_user     = root
 superuser_password =
 
 [devel]
