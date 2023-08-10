@@ -1,7 +1,7 @@
 [Unit]
 Description=kivitendo background jobs server
-Requires=postgresql.service
-After=postgresql.service
+Requires=mysqld.service
+After=mysqld.service
 
 [Service]
 Type=forking
