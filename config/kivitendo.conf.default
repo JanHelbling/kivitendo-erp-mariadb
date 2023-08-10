@@ -36,9 +36,9 @@ failed_login_penalty = 5
 # If 'module' is set to 'DB' then this database also contains the
 # users' passwords.
 host     = localhost
-port     = 5432
+port     = 3306
 db       = kivitendo_auth
-user     = postgres
+user     = kivitendo
 password =
 
 [authentication/ldap]
