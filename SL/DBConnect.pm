@@ -71,7 +71,7 @@ sub get_connect_args {
   my $db_cfg          = SL::DB->registry->entry(domain => $domain, type => $type) || { };
 
   return (
-    'dbi:Pg:dbname=' . $db_cfg->{database} . ';host=' . ($db_cfg->{host} || 'localhost') . ';port=' . ($db_cfg->{port} || 5432),
+    'dbi:MariaDB:dbname=' . $db_cfg->{database} . ';host=' . ($db_cfg->{host} || 'localhost') . ';',
     $db_cfg->{username},
     $db_cfg->{password},
     $self->get_options(%{ $db_cfg->{connect_options} || {} }, @args),
@@ -81,7 +81,6 @@ sub get_connect_args {
 sub get_options {
   my $self    = shift;
   my $options = {
-    pg_enable_utf8 => 1,
     @_
   };
 
@@ -109,7 +108,7 @@ optionally routing through DBIx::Log4perl
   my $dbh = SL::DBConnect->connect(@options_suitable_for_dbi_connect);
 
   # Connect to a very specific database:
-  my $dbh = SL::DBConnect->connect('dbi:Pg:dbname=demo', 'user', 'password');
+  my $dbh = SL::DBConnect->connect('dbi:MariaDB:dbname=demo', 'user', 'password');
 
 =head1 FUNCTIONS
 

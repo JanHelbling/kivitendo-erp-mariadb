@@ -559,11 +559,10 @@ if ($opt_test_utf8) {
 
   my $umlaut_upper       = 'Ä';
 
-  my $dbconnect          = "dbi:Pg:dbname=${opt_dbname}";
+  my $dbconnect          = "dbi:MariaDB:dbname=${opt_dbname}";
   $dbconnect            .= ";host=${opt_dbhost}" if ($opt_dbhost);
-  $dbconnect            .= ";port=${opt_dbport}" if ($opt_dbport);
 
-  my $dbh                = DBI->connect($dbconnect, $opt_dbuser, $opt_dbpassword, { pg_enable_utf8 => 1 });
+  my $dbh                = DBI->connect($dbconnect, $opt_dbuser, $opt_dbpassword);
 
   $form->error("UTF-8 test: Database connect failed (" . $DBI::errstr . ")") if (!$dbh);
 

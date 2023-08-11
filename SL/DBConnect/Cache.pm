@@ -1,6 +1,6 @@
 package SL::DBConnect::Cache;
 
-use strict;
+#use strict;
 use List::MoreUtils qw(apply);
 
 my %cache;

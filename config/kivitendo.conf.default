@@ -227,7 +227,7 @@ openofficeorg_daemon_port = 2002
 
 [task_server]
 # Set to 1 for debug messages in /tmp/kivitendo-debug.log
-debug = 0
+debug = 1
 # Chose a system user the daemon should run under when started as root.
 run_as =
 # Task servers can run on multiple machines. Each needs its own unique
@@ -273,7 +273,7 @@ modules = Transactions
 send_email_on_success = 0
 
 # will log into the standard logfile
-log_to_file = 0
+log_to_file = 1
 
 # user login (!) to send the email to.
 send_email_to  =
@@ -351,7 +351,7 @@ client =
 [debug]
 # Use DBIx::Log4perl for logging DBI calls. The string LXDEBUGFILE
 # will be replaced by the file name configured for $::lxdebug.
-dbix_log4perl = 0
+dbix_log4perl = 1
 dbix_log4perl_config = log4perl.logger = FATAL, LOGFILE
                      = log4perl.appender.LOGFILE=Log::Log4perl::Appender::File
                      = log4perl.appender.LOGFILE.filename=LXDEBUGFILE

@@ -283,15 +283,11 @@ sub dbconnect {
   }
 
   my $cfg = $self->{DB_config};
-  my $dsn = 'dbi:Pg:dbname=' . $cfg->{db} . ';host=' . $cfg->{host};
-
-  if ($cfg->{port}) {
-    $dsn .= ';port=' . $cfg->{port};
-  }
+  my $dsn = 'dbi:MariaDB:dbname=' . $cfg->{db} . ';host=' . $cfg->{host};
 
   $main::lxdebug->message(LXDebug->DEBUG1, "Auth::dbconnect DSN: $dsn");
 
-  $self->{dbh} = SL::DBConnect->connect($dsn, $cfg->{user}, $cfg->{password}, { pg_enable_utf8 => 1, AutoCommit => 1 });
+  $self->{dbh} = SL::DBConnect->connect($dsn, $cfg->{user}, $cfg->{password}, { AutoCommit => 1 });
 
   if (!$may_fail && !$self->{dbh}) {
     delete $self->{dbh};
@@ -345,24 +341,17 @@ sub create_database {
     $params{superuser_password} = $cfg->{password};
   }
 
-  $params{template} ||= 'template0';
-  $params{template}   =~ s|[^a-zA-Z0-9_\-]||g;
-
-  my $dsn = 'dbi:Pg:dbname=template1;host=' . $cfg->{host};
-
-  if ($cfg->{port}) {
-    $dsn .= ';port=' . $cfg->{port};
-  }
+  my $dsn = 'dbi:MariaDB:host=' . $cfg->{host};
 
   $main::lxdebug->message(LXDebug->DEBUG1(), "Auth::create_database DSN: $dsn");
 
-  my $dbh = SL::DBConnect->connect($dsn, $params{superuser}, $params{superuser_password}, { pg_enable_utf8 => 1 });
+  my $dbh = SL::DBConnect->connect($dsn, $params{superuser}, $params{superuser_password});
 
   if (!$dbh) {
-    $main::form->error($main::locale->text('The connection to the template database failed:') . "\n" . $DBI::errstr);
+    $main::form->error($main::locale->text('The connection to mariadb failed:') . "\n" . $DBI::errstr);
   }
 
-  my $query = qq|CREATE DATABASE "$cfg->{db}" OWNER "$cfg->{user}" TEMPLATE "$params{template}" ENCODING 'UNICODE'|;
+  my $query = qq|CREATE DATABASE $cfg->{db};|;
 
   $main::lxdebug->message(LXDebug->DEBUG1(), "Auth::create_database query: $query");
 
@@ -370,14 +359,6 @@ sub create_database {
 
   if ($dbh->err) {
     my $error = $dbh->errstr();
-
-    $query                 = qq|SELECT pg_encoding_to_char(encoding) FROM pg_database WHERE datname = 'template0'|;
-    my ($cluster_encoding) = $dbh->selectrow_array($query);
-
-    if ($cluster_encoding && ($cluster_encoding !~ m/^(?:UTF-?8|UNICODE)$/i)) {
-      $error = $::locale->text('Your PostgreSQL installationen does not use Unicode as its encoding. This is not supported anymore.');
-    }
-
     $dbh->disconnect();
 
     $main::form->error($main::locale->text('The creation of the authentication database failed:') . "\n" . $error);

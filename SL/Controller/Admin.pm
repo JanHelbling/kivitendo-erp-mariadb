@@ -72,8 +72,7 @@ sub action_create_auth_db {
   my ($self) = @_;
 
   $::auth->create_database(superuser          => $::form->{db_superuser},
-                           superuser_password => $::form->{db_superuser_password},
-                           template           => $::form->{db_template});
+                           superuser_password => $::form->{db_superuser_password});
   $self->check_auth_db_and_tables;
 }
 
