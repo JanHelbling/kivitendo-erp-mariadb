@@ -18,11 +18,11 @@ use SL::LxOfficeConf;
 our %lx_office_conf;
 SL::LxOfficeConf->read;
 
-sub mysql {
+sub mariadb {
   my ($title, %params) = @_;
   print "Connecting to ${title} database '" . $params{db} . "' on " . $params{host} . ':' . $params{port} . " with PostgreSQL username " . $params{user} . "\n\n";
   print "If asked for the password use this: " . $params{password} . "\n\n";
-  exec "mysql", "--user", $params{user}, "-h", $params{host}, "--port", $params{port}, "-p".$params{password}, $params{db};
+  exec "mariadb", "--user", $params{user}, "-h", $params{host}, "--port", $params{port}, "-p".$params{password}, $params{db};
 }
 
 my $settings = $lx_office_conf{'authentication/database'};
@@ -30,9 +30,9 @@ die "Missing configuration section 'authentication/database'" unless $settings;
 die "Incomplete database settings" if any { !$settings->{$_} } qw (host db user);
 $settings->{port} ||= 5432;
 
-mysql("authentication", %{ $settings }) if !@ARGV;
+mariadb("authentication", %{ $settings }) if !@ARGV;
 
-my $dbh = DBI->connect('dbi:mysql:dbname=' . $settings->{db} . ';host=' . $settings->{host} . ($settings->{port} ? ';port=' . $settings->{port} : ''), $settings->{user}, $settings->{password})
+my $dbh = DBI->connect('dbi:mariadb:dbname=' . $settings->{db} . ';host=' . $settings->{host} . ($settings->{port} ? ';port=' . $settings->{port} : ''), $settings->{user}, $settings->{password})
   or die "Database connection to authentication database failed: " . $DBI::errstr;
 
 my $user_id = $dbh->selectrow_array(qq|SELECT id FROM auth.user WHERE login = ?|, undef, $ARGV[0])
@@ -54,4 +54,4 @@ my %params = (
 
 die "Incomplete database settings for user " . $ARGV[0] if any { !$settings->{$_} } qw (host db user);
 
-mysql($ARGV[0] . "'s", %params);
+mariadb($ARGV[0] . "'s", %params);
